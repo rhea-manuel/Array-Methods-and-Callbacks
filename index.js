@@ -12,34 +12,72 @@ console.log('its working');
 (d) Away Team goals for 2014 world cup final
 (e) Winner of 2014 world cup final */
 
+// (a) Home Team name for 2014 world cup final
+
+function printFinalTeam(year, property){
+    const finalNameItem = fifaData.filter(item=>item.Year===year && item.Stage==='Final');
+    console.log(finalNameItem[0][property]);
+}
+
+printFinalTeam(2014,"Home Team Name");
+printFinalTeam(2014,"Away Team Name");
+printFinalTeam(2014,"Home Team Goals");
+printFinalTeam(2014,"Away Team Goals");
+
+// const finalNameItem = fifaData.filter(item => item.Year===2014 && item.Stage==='Final');
+// console.log(finalNameItem[0]["Home Team Name"]);
+
+// const 
+
 
 /* Task 2: Create a function called  getFinals that takes `data` as an argument and returns an array of objects with only finals data */
 
-function getFinals(/* code here */) {
+function getFinals(data) {
 
-    /* code here */
+    return data.filter(item => item.Stage === 'Final');
 
 };
+
+console.log(getFinals(fifaData));
 
 /* Task 3: Implement a higher-order function called `getYears` that accepts the callback function `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
-function getYears(/* code here */) {
+function getYears(cb, data) {
 
-    /* code here */
+    const dataList = cb(data);
+    const toReturn = dataList.map(item => item = item.Year);
+
+    return toReturn;
 
 };
 
-getYears();
+console.log(getYears(getFinals,fifaData))
 
 /* Task 4: Implement a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
+function getWinners(cb, data) {
 
-    /* code here */
+    const dataList= cb(data);
+    const toReturn = dataList.map(getCountry());
+
+    function getCountry(item, index){
+
+        if (item["Home Team Goals"] > item["Away Team Goals"]){
+            return item["Home Team Name"]
+        }
+
+        else if (item["Home Team Goals"] === item["Away Team Goals"]){
+            return `Index ${index} has a draw. Double check.`;
+        }
+
+        else{
+            return item["Away Team Name"]
+        }
+    }
 
 };
 
-getWinners();
+getWinners(getFinals, fifaData);
 
 /* Task 5: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
