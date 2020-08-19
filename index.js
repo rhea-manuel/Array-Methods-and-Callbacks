@@ -123,8 +123,8 @@ function getAverageGoals(data) {
 
     function accum (accumulator, item){
 
-        //Gets the correct average for finals w/ draws.
-        if (item["Home Team Goals"]===item["Away Team Goals"] && item["Stage"]==='Final'){
+        //Gets the correct average for draws. Excludes items that do not have a Win Condition.
+        if (item["Home Team Goals"]===item["Away Team Goals"] && item["Win conditions"]){
             // console.log(item);
             if (curChecker==="Home Team Goals"){
                 let curAr = item["Win conditions"].split("(")
