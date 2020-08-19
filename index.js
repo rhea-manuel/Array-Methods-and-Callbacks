@@ -57,27 +57,34 @@ console.log(getYears(getFinals,fifaData))
 
 function getWinners(cb, data) {
 
-    const dataList= cb(data);
-    const toReturn = dataList.map(getCountry());
+    let dataList= cb(data);
 
-    function getCountry(item, index){
+    //This ensures no team that draws will be included in the data set.
+    dataList = dataList.filter(item=>!(item["Home Team Goals"] === item["Away Team Goals"]));
 
+    const toReturn = dataList.map(function(item, index){
         if (item["Home Team Goals"] > item["Away Team Goals"]){
             return item["Home Team Name"]
         }
 
-        else if (item["Home Team Goals"] === item["Away Team Goals"]){
-            return `Index ${index} has a draw. Double check.`;
-        }
+        // else if (item["Home Team Goals"] === item["Away Team Goals"]){
+        //     return 'Draw. Check console for error.';
+        // }
 
         else{
             return item["Away Team Name"]
         }
-    }
+    });
 
+    return toReturn;
+
+    // function getCountry(item, index){
+
+        
+    // }
 };
 
-getWinners(getFinals, fifaData);
+console.log(getWinners(getFinals, fifaData));
 
 /* Task 5: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
